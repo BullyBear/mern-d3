@@ -16,10 +16,10 @@ const barChart = (props) => {
     // Parse the date / time
     //var parseDate = d3.timeScale("%Y-%m").parse;
     //var parseDate = d3.timeParse("%B %d, %Y");
-    var parseDate = d3.timeParse("%x");
+    var parseDate = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
     //var x = d3.scaleOrdinal().rangeRoundBands([0, width], .05);
-    var x = d3.scaleBand().rangeRound([0, width], .05);
+    var x = d3.scaleBand().rangeRound([0, width]);
 
     var y = d3.scaleLinear().range([height, 0]);
 
@@ -28,7 +28,7 @@ const barChart = (props) => {
         .scale(x)
     //.orient("bottom")
     //.tickFormat(d3.timeParse("%B %d, %Y"));
-        .tickFormat(d3.timeParse("%x"));
+         .tickFormat(d3.timeFormat('%b %Y'));
 
     //var yAxis = d3.svg.axis()
     var yAxis = d3.axisLeft()
@@ -67,19 +67,17 @@ const barChart = (props) => {
     var queryTwo = '/get?where=' + JSON.stringify({
         "value": {"lt": 300}
     })
-    d3.json(API_URL + query, function(error, data) {
+    d3.json(API_URL + query).then( function(data, error) {
 
         if(error){
             return console.warn(error);
         }
 
-        return d3.select(".viz").html(JSON.stringify(data, null, 4));
 
         data.forEach(function(d) {
             d.date = parseDate(d.date);
             d.value = +d.value;
         });
-        return data;
 
         //console.log("data", data);
         x.domain(data.map(function(d) { return d.date; }));
@@ -92,6 +90,7 @@ const barChart = (props) => {
             .call(xAxis)
             .selectAll("text")
             .style("text-anchor", "end")
+            .attr('width', width)
             .attr("dx", "-.8em")
             .attr("dy", "-.55em")
             .attr("transform", "rotate(-90)" );
@@ -113,7 +112,7 @@ const barChart = (props) => {
             .enter().append("rect")
             .style("fill", "steelblue")
             .attr("x", function(d) { return x(d.date); })
-            .attr("width", x.rangeBand())
+            .attr("width", 30)
             .attr("y", function(d) { return y(d.value); })
             .attr("height", function(d) { return height - y(d.value); });
 
