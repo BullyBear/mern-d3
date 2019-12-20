@@ -60,7 +60,9 @@ export default class Controller extends Component {
     return(
 
         <div className="controller">
+
         <form onSubmit={this.onSubmit}>
+        
         <label htmlFor="colorSelect">pick a color:</label>
         <select id="colorSelect" name="color" onChange={this.onChange} value={this.state.color||"default"}>
           <option disabled value="default">choose</option>
