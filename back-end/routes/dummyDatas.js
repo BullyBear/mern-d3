@@ -8,7 +8,7 @@ const dummyData = require('../models/dummyData')
 router.get('/get', async (req, res) => {
     let query = JSON.parse(req.query.where);
     try {
-		c//onst dummyDatas = await dummyData.find(query)
+		//const dummyDatas = await dummyData.find()
 		const dummyDatas = await dummyData.find(query)
 		res.json(dummyDatas)
 	} catch (err) {
