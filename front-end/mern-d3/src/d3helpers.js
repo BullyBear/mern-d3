@@ -61,11 +61,11 @@ const barChart = (props) => {
 
 
     var query = '/get?where=' + JSON.stringify({
-        "value": {"gt": 300}
+        "value": {"$gt": 300}
     })
 
     var queryTwo = '/get?where=' + JSON.stringify({
-        "value": {"lt": 300}
+        "value": {"$lt": 300}
     })
     d3.json(API_URL + query).then( function(data, error) {
 
