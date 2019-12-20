@@ -6,12 +6,13 @@ const dummyData = require('../models/dummyData')
 
 
 router.get('/get', async (req, res) => {
-	try {
-		const dummyDatas = await dummyData.find()
+    let query = JSON.parse(req.query.where);
+    try {
+		const dummyDatas = await dummyData.find(query)
 		res.json(dummyDatas)
 	} catch (err) {
 		res.status(500).json({ message: err.message})
-	}	
+	}
 })
 
 
@@ -21,6 +22,7 @@ router.get('/get/:id', getDummyData, (req, res) => {
 
 
 router.post('/post', async (req, res) => {
+    console.log(req.body);
 	const dummyD = new dummyData({
 		date: req.body.date,
 		value: req.body.value
@@ -84,7 +86,7 @@ router.get('/', async (req, res) => {
 		res.json(dummyDatas)
 	} catch (err) {
 		res.status(500).json({ message: err.message})
-	}	
+	}
 })
 
 
@@ -156,7 +158,7 @@ async function getDummyData(req, res, next) {
 
 
 
-module.exports = router 
+module.exports = router
 
 
 
